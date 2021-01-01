@@ -16,14 +16,14 @@ using Polly;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
-using Hahn.ApplicatonProcess.December2020.Domain.Models.validators;
 using System.Linq;
 using AutoMapper;
-using Hahn.ApplicatonProcess.December2020.Domain;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using System.Collections.Generic;
+using Hahn.ApplicatonProcess.December2020.Domain.Models.Validators;
+using Hahn.ApplicatonProcess.December2020.Domain.Models.Filters;
+using Microsoft.Extensions.Options;
 
 namespace Hahn.ApplicatonProcess.December2020.Web
 {
@@ -57,9 +57,10 @@ namespace Hahn.ApplicatonProcess.December2020.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers();               
             services.AddSwaggerGen(c =>
             {
+                c.OperationFilter<SwaggerLanguageHeader>();
                 //Collect all referenced projects output XML document file paths
                 // Add the location of the xml docs for the api assembly (if they exist)
                 var currentAssembly = Assembly.GetExecutingAssembly();
@@ -72,7 +73,7 @@ namespace Hahn.ApplicatonProcess.December2020.Web
                     c.IncludeXmlComments(d);
                 });
                 c.SwaggerDoc("v1", new OpenApiInfo {
-                    Title = "Hahn.ApplicatonProcess.December2020.Web",
+                    Title = "Hahn.ApplicationProcess.December2020.Web",
                     Version = "v1",
                     Description = "A simple applicant registration system",
                 });
@@ -84,17 +85,6 @@ namespace Hahn.ApplicatonProcess.December2020.Web
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IApplicantService), typeof(ApplicantService));
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new ProducesAttribute("application/json"));
-                options.Filters.Add(new ConsumesAttribute("application/json"));
-                options.Filters.Add(typeof(ValidatorActionFilter));
-            }).AddFluentValidation(fv => {
-                fv.RegisterValidatorsFromAssemblyContaining<ApplicantValidator>();
-            }).SetCompatibilityVersion(CompatibilityVersion.Latest).ConfigureApiBehaviorOptions(options =>
-                {
-                    options.SuppressMapClientErrors = true;
-                });
             services.AddHttpClient<ICountryClient, CountryClient>(client =>
             {
                 client.BaseAddress = new Uri(Configuration["GetCountryBaseUrl"]);
@@ -103,6 +93,7 @@ namespace Hahn.ApplicatonProcess.December2020.Web
             services.AddAutoMapper
             (typeof(AutoMapperProfile).Assembly);
 
+            // Add localization service
             services.AddLocalization(options =>
             {
                 options.ResourcesPath = "Resources";
@@ -110,16 +101,27 @@ namespace Hahn.ApplicatonProcess.December2020.Web
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.SetDefaultCulture("en-Us");
-                var cultures = new[] { "en-US", "de-DE", "ja-JP" };
-                options.AddSupportedCultures(cultures);
-                options.AddSupportedUICultures(cultures);
+                var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("de"),
+                    new CultureInfo("fr")
+                };
+                options.DefaultRequestCulture = new RequestCulture("en", "en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
                 options.FallBackToParentUICultures = true;
-                // This provider sets the culture based on the client's HTTP locale via a header value.
-                // Here, the user will choose their culture.
-                //options
-                // .RequestCultureProviders
-                // .Remove((IRequestCultureProvider)typeof(AcceptLanguageHeaderRequestCultureProvider));
+            });
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ProducesAttribute("application/json"));
+                options.Filters.Add(new ConsumesAttribute("application/json"));
+                options.Filters.Add(typeof(ValidatorActionFilter));
+            }).AddFluentValidation(fv => {
+                fv.RegisterValidatorsFromAssemblyContaining<ApplicantValidator>();
+            }).SetCompatibilityVersion(CompatibilityVersion.Latest).ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressMapClientErrors = true;
             });
         }
 

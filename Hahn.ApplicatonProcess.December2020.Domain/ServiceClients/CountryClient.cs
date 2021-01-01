@@ -46,7 +46,7 @@ namespace Hahn.ApplicatonProcess.December2020.Domain.ServiceClients
             }
             catch(Exception ex)
             {
-                logger.LogInformation($"country {name} not found", ex.InnerException);
+                logger.LogInformation($"country {name} not found", ex);
                 return string.Empty;
             }
         }

@@ -40,7 +40,7 @@ namespace Hahn.ApplicatonProcess.December2020.Web.Controllers
         /// <response code="404">
         /// The applicant does not exist
         /// </response>
-        [HttpGet("applicants")]
+        [HttpGet()]
         [ProducesResponseType(typeof(IList<ApplicantDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get()
@@ -61,7 +61,7 @@ namespace Hahn.ApplicatonProcess.December2020.Web.Controllers
         /// The applicant does not exist
         /// </response>
 
-        [HttpGet("applicants/{id}", Name = "GetApplicant")]
+        [HttpGet("{id}", Name = "GetApplicant")]
         [ProducesResponseType(typeof(ApplicantDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get(int id)
@@ -84,7 +84,7 @@ namespace Hahn.ApplicatonProcess.December2020.Web.Controllers
         /// <response code="500">
         /// An error occured
         /// </response>
-        [HttpPost("applicants")]
+        [HttpPost()]
         [ProducesResponseType(typeof(ApplicantWDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -98,14 +98,15 @@ namespace Hahn.ApplicatonProcess.December2020.Web.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occured. Please, check the log file for details.");
+                return StatusCode(StatusCodes.Status500InternalServerError, localizer["An error occured. Please, check the log file for details."].Value);
             }
         }
 
         /// <summary>
         ///    Updates an existing applicant.
         /// </summary>
-        /// <param name="id">The applicant id to update</param>
+        /// <param name="id" example="1">The applicant id to update</param>
+        /// <param name="model">The model to update</param>
         /// <returns><see cref="ActionResult"/></returns>
         /// <response code="200">
         /// Applicant successfully updated
@@ -116,7 +117,7 @@ namespace Hahn.ApplicatonProcess.December2020.Web.Controllers
         /// <response code="500">
         /// An error occured
         /// </response>
-        [HttpPut("applicants/{id}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(ApplicantWDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -130,14 +131,14 @@ namespace Hahn.ApplicatonProcess.December2020.Web.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occured. Please, check the log file for details.");
+                return StatusCode(StatusCodes.Status500InternalServerError, localizer["An error occured. Please, check the log file for details."].Value);
             }
         }
 
         /// <summary>
         ///    Deletes an existing applicant.
         /// </summary>
-        /// <param name="id">The applicant id to delete</param>
+        /// <param name="id" example="1">The applicant id to delete</param>
         /// <returns><see cref="ActionResult"/></returns>
         /// <response code="204">
         /// Applicant successfully removed
@@ -148,7 +149,7 @@ namespace Hahn.ApplicatonProcess.December2020.Web.Controllers
         /// <response code="500">
         /// An error occured
         /// </response>
-        [HttpDelete("applicants/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -162,7 +163,7 @@ namespace Hahn.ApplicatonProcess.December2020.Web.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occured. Please, check the log file for details.");
+                return StatusCode(StatusCodes.Status500InternalServerError, localizer["An error occured. Please, check the log file for details."].Value);
             }
         }
     }

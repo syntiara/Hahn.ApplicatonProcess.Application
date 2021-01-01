@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Hahn.ApplicatonProcess.December2020.Domain.Models.validators
+namespace Hahn.ApplicatonProcess.December2020.Domain.Models.Filters
 {
-    #pragma warning disable CS1591
+#pragma warning disable CS1591
     public class ValidatorActionFilter : IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext filterContext)
