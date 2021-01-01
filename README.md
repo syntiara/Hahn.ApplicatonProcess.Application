@@ -16,7 +16,7 @@ This solution is the Hahn.ApplicatonProcess api. It is a RESTful service that ma
 
 ### Development Environment Setup
 
-Clone the repository [here](https://tools.newclassrooms.org/bitbucket/projects/DEV/repos/environment/browse).
+Clone the repository [here](https://github.com/syntiara/Hahn.ApplicatonProcess.Application.git).
 
 1. Open the project in visual studio
 2. run dotnet restore to restore package dependencies
