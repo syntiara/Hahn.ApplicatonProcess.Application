@@ -21,8 +21,8 @@ namespace Hahn.ApplicatonProcess.December2020.Domain.Service
         /// Initializes a new instance of the <see cref="ApplicantService"/> class.
         /// </summary>
         /// <param name="applicantRepo">The repository to use.</param>
-        /// <param name="applicantRepo">The repository to use.</param>
         /// <param name="logger">The logger to use.</param>
+        /// <param name="mapper">the mapping profile</param>
         public ApplicantService(IRepository<Applicant> applicantRepo, ILogger<ApplicantService> logger, IMapper mapper)
         {
             this.applicantRepo = applicantRepo;

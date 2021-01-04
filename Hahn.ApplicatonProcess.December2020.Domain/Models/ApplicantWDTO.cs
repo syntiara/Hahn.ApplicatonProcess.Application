@@ -2,7 +2,7 @@
 namespace Hahn.ApplicatonProcess.December2020.Domain.Models
 {
     /// <summary>
-    ///     Basic information about an applicant.
+    /// Data transfer object for writeonly requests
     /// </summary>
 
     public class ApplicantWDTO

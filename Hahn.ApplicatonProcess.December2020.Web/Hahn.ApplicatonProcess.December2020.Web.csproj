@@ -20,5 +20,24 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logs\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\ApplicationController.de.Designer.cs">
+      <DependentUpon>ApplicationController.de.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\ApplicantController.de.Designer.cs">
+      <DependentUpon>ApplicantController.de.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Controllers\ApplicantController.fr.Designer.cs">
+      <DependentUpon>ApplicantController.fr.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Controllers\ApplicantController.fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicantController.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
